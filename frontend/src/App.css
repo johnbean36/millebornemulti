@@ -1,0 +1,179 @@
+.h1 {
+  display: flex;
+  justify-content: center;
+}
+
+header {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #00acef;
+}
+
+.body {
+  height: 100vh;
+  display: grid;
+  grid-template-rows: 0.1fr 1fr 1fr;
+  background-color: #00acef;
+}
+
+main {
+  background-color: white;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+#a {
+  background-color: #00acef;
+}
+
+#board {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: solid black;
+  width: 33vmin;
+  height: 40vmin;
+  margin-top: 5vmin;
+  margin-left: 5vmin;
+  background-color: grey;
+}
+
+.score {
+  display: grid;
+  grid-template-columns: 1fr 0.5fr;
+  background-color: #c0c0c0;
+  margin: 0.7vmin;
+  padding: 1vmin;
+  border: solid black;
+  height: 2.5vmin;
+  width: 29vmin;
+  font-size: 1em;
+}
+
+.row2 {
+  border: inset;
+  text-align: center;
+  height: 2.3vmin;
+  width: 7vmin;
+  margin: auto;
+}
+
+#b {
+  background-color:#00acef;
+  display: grid;
+  grid-template-rows: 1fr 0.5fr;
+}
+
+.cards {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 5vmin;
+}
+
+#btop {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+#bbottom{
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  font-size: 2vmin;
+  font-style: italic;
+}
+
+
+#discard {
+  opacity: 50%;
+  background-color: grey;
+  height: 216px;
+  width: 148px;
+}
+
+#c {
+  background-color: #00acef;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-end;
+}
+
+.indicators {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: solid black;
+  width: 45vmin;
+  height: 60vmin;
+  background-color: grey;
+  margin-right: 3vmin;
+  
+}
+
+.ind {
+  font-size: 0.9em;
+}
+
+.indacc {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr 1fr 1fr;
+  height: 3.8vmin;
+  width: 35vmin;
+  border: solid black;
+  padding: 0.3vmin;
+  margin: 0.25vmin;
+  font-size: 0.8em;
+}
+
+.light {
+  margin-left: 1vmin;
+  padding: 0;
+}
+
+h1{
+  margin-bottom: 1vmin;
+}
+
+.hand {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+#card1, #card2, #card3, #card4, #card5, #card6 {
+  margin: 0.5vmin;
+}
+
+button {
+  height: 4vmin;
+  margin-top: 0.5vmin;
+}
+
+#buttonS {
+  margin: 5vmin;
+  display: flex;
+  justify-content: center;
+}
+#hint {
+  text-align: center;
+}
+
+#go {
+  margin-top: 1.5vmin
+}
+
+footer {
+  background-color: #00acef;
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+}
+
+
+
