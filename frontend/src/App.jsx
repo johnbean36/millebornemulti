@@ -1,9 +1,10 @@
 import { useState } from 'react'
 import Score from './components/Score';
+import Indicator from './components/Indicator'
 import './App.css'
 
 function App() {
-  const [playerCount, setplayerCount] = useState(4);
+  const [playerCount, setplayerCount] = useState(2);
   const [playerName, setplayerName ] = useState(['', '', '', '']);
   const [playerDistance, setplayerDistance] = useState([0, 0, 0, 0]);
   const [playerRScore, setplayerRScore] = useState([0, 0, 0, 0]);
@@ -21,12 +22,10 @@ function App() {
         <section id="a">
           <div id="board">
             <Score player={playerName[0]} distance={playerDistance[0]} rscore={playerRScore[0]} tscore={playerTScore[0]} />
-            { playerCount > 1 ? 
+            { playerCount > 2 ? 
               <Score player={playerName[1]} distance={playerDistance[1]} rscore={playerRScore[1]} tscore={playerTScore[1]} />
             :<div></div>}
-            { playerCount > 2 ? 
               <Score player={playerName[2]} distance={playerDistance[2]} rscore={playerRScore[2]} tscore={playerTScore[2]} />
-            :<div></div>}
             { playerCount > 3 ? 
               <Score player={playerName[3]} distance={playerDistance[3]} rscore={playerRScore[3]} tscore={playerTScore[3]} />
           :<div></div>}
@@ -36,7 +35,9 @@ function App() {
 
         </section>
         <section id="c">
-          
+          <div className="indicators">
+            <Indicator playerCount={playerCount}/>
+          </div>
         </section>
 
       </main>

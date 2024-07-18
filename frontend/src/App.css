@@ -118,22 +118,24 @@ main {
 
 .ind {
   font-size: 0.9em;
+  display: flex;
+  align-items: center;
 }
 
 .indacc {
   display: grid;
-  grid-template-columns: 1.5fr 1fr 1fr 1fr 1fr;
+  grid-template-columns: 7fr 4fr 2fr 4fr 2fr 4fr 2fr 4fr 3fr;
   height: 3.8vmin;
-  width: 35vmin;
-  border: solid black;
+  width: 40vmin;
   padding: 0.3vmin;
   margin: 0.25vmin;
   font-size: 0.8em;
+  border: 2px solid black;
 }
 
 .light {
-  margin-left: 1vmin;
   padding: 0;
+  display: flex;
 }
 
 h1{
@@ -178,5 +180,16 @@ footer {
 .player {
   border: solid black;
   margin: 0.2vmin;
+}
 
+.plight {
+  display: flex;
+  align-items: center;
+}
+
+.indN {
+  font-size: 1.5vmin;
+  display: flex;
+  align-items: center;
+  font-weight: bold;
 }
