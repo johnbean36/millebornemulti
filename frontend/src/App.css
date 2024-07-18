@@ -21,7 +21,7 @@ header {
 main {
   background-color: white;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 0.5fr 1fr 1fr;
 }
 
 #a {
@@ -34,9 +34,8 @@ main {
   justify-content: center;
   align-items: center;
   border: solid black;
-  width: 33vmin;
-  height: 40vmin;
-  margin-top: 5vmin;
+  width: 25vmin;
+  height: 37vmin;
   margin-left: 5vmin;
   background-color: grey;
 }
@@ -45,24 +44,25 @@ main {
   display: grid;
   grid-template-columns: 1fr 0.5fr;
   background-color: #c0c0c0;
-  margin: 0.7vmin;
-  padding: 1vmin;
-  border: solid black;
-  height: 2.5vmin;
-  width: 29vmin;
+  padding: 0.3vmin;
+  height: 2vmin;
+  width: 20vmin;
   font-size: 1em;
 }
 
 .row2 {
+  display: flex;
+  justify-content: center;
+  align-items:center;
   border: inset;
   text-align: center;
-  height: 2.3vmin;
-  width: 7vmin;
+  height: 1.5vmin;
+  width: 5vmin;
   margin: auto;
 }
 
 #b {
-  background-color:#00acef;
+  background-color: #00acef;
   display: grid;
   grid-template-rows: 1fr 0.5fr;
 }
@@ -95,9 +95,9 @@ main {
   height: 216px;
   width: 148px;
 }
-
+/* #00acef */
 #c {
-  background-color: #00acef;
+  background-color: white;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -175,5 +175,8 @@ footer {
   grid-template-rows: 1fr 1fr;
 }
 
+.player {
+  border: solid black;
+  margin: 0.2vmin;
 
-
+}

@@ -1,12 +1,14 @@
 import { useState } from 'react'
+import Score from './components/Score';
 import './App.css'
 
 function App() {
-  const [playerCount, setplayerCount] = useState(0);
-  const [playerName, setplayerName ] = useState('');
-  const [player2Name, setplayer2Name] = useState('');
-  const [player3Name, setplayer3Name] = useState('');
-  const [player4Name, setplayer4Name] = useState('');
+  const [playerCount, setplayerCount] = useState(4);
+  const [playerName, setplayerName ] = useState(['', '', '', '']);
+  const [playerDistance, setplayerDistance] = useState([0, 0, 0, 0]);
+  const [playerRScore, setplayerRScore] = useState([0, 0, 0, 0]);
+  const [playerTScore, setplayerTScore] = useState([0, 0, 0, 0])
+
 
   return (
     <div className="body">
@@ -17,18 +19,24 @@ function App() {
     </header>
       <main>
         <section id="a">
-        <div className="score" id="p1d">
-            <span>Player {`${playerName}`} Distance:</span>
-            <div className="row2" id="p1rd"></div>
-        </div>
-        { playerCount > 1 ? <div className="score" id="p2d">
-            <span>Player 2 Distance:</span>
-            <div className="row2" id="p2rd"></div>
-          </div>:<div></div>}
-        { playerCount > 2 ? <div className="score" id="p3d">
-            <span>Player 2 Distance:</span>
-            <div class="row2" id="p3rd"></div>
-          </div>:<div></div>}
+          <div id="board">
+            <Score player={playerName[0]} distance={playerDistance[0]} rscore={playerRScore[0]} tscore={playerTScore[0]} />
+            { playerCount > 1 ? 
+              <Score player={playerName[1]} distance={playerDistance[1]} rscore={playerRScore[1]} tscore={playerTScore[1]} />
+            :<div></div>}
+            { playerCount > 2 ? 
+              <Score player={playerName[2]} distance={playerDistance[2]} rscore={playerRScore[2]} tscore={playerTScore[2]} />
+            :<div></div>}
+            { playerCount > 3 ? 
+              <Score player={playerName[3]} distance={playerDistance[3]} rscore={playerRScore[3]} tscore={playerTScore[3]} />
+          :<div></div>}
+          </div>
+        </section>
+        <section id="b">
+
+        </section>
+        <section id="c">
+          
         </section>
 
       </main>
