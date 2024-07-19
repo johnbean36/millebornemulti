@@ -2,7 +2,7 @@ import '../App.css';
 
 function Distance({player, distance, rscore, tscore}){
     return (
-        <div class="player">
+        <div className="player">
             <div className="score">
                 <span>Player {`${player}`} Distance:</span>
                 <div className="row2">{`${distance}`}</div>
