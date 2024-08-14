@@ -3,13 +3,14 @@ import Score from './components/Score';
 import Indicator from './components/Indicator';
 import io from 'socket.io-client';
 const socket = io('localhost:3000');
-import './App.css'
+import './App.css';
+import Main from './components/Main';
 
 function App() {
 
   const [isConnected, setIsConnected] = useState(socket.connected);
   const [hasName, sethasName] = useState(false);
-  const [playerCount, setplayerCount] = useState(4);
+  const [playerCount, setplayerCount] = useState(0);
   const [playerName, setplayerName ] = useState(['', '', '', '']);
   const [playerDistance, setplayerDistance] = useState([0, 0, 0, 0]);
   const [playerRScore, setplayerRScore] = useState([0, 0, 0, 0]);
@@ -35,8 +36,19 @@ function App() {
       console.log("The server is currently full");
     }
 
+    function handleSize(size){
+      setplayerCount(size);
+    }
+
     socket.on('connect', onConnect);
     socket.on('full', handleFull);
+    socket.on('size', handleSize);
+
+    return () =>{
+      socket.off('connect', onConnect);
+      socket.off('full', handleFull);
+      socket.off('size', handleSize);
+    }
   },[]);
 
   function nHandleChange(e){
@@ -51,11 +63,23 @@ function App() {
 
   return (
     <div className="body">
-      { HasName ? <div></div> : 
+      { hasName ? 
+      <div>
+        <Main 
+          playerCount={playerCount} playerName={playerName} playerDistance={playerDistance} playerRScore={playerRScore}
+          playerTScore={playerTScore} accident={accident} aLight={aLight} oogLight={oogLight} stopS={stopS}        
+          flatLight={flatLight} limitLight={limitLight} emergencyLight={emergencyLight} aceLight={aceLight}
+          truckLight={truckLight} punctureLight={punctureLight} goLight={goLight} setplayerDistance={setplayerDistance}
+          setplayerRScore={setplayerRScore} setplayerTScore={setplayerTScore} setAccident={setAccident}
+          setALight={setALight} setoogLight={setoogLight} setStopS={setStopS} setFlatLight={setFlatLight}
+          setLimitLight={setLimitLight} setEmergencyLight={setEmergencyLight} setAceLight={setAceLight} setTruckLight={setTruckLight}
+          setPunctureLight={setPunctureLight} setGoLight={setGoLight}
+        /></div> : 
       <div>
         <form onSubmit={nHandleSubmit}>
           <label htmlFor="enter">Enter a name to play</label>
           <input type="text" id="enter" />
+          <button type="submit">Submit</button>
         </form>
       </div>}
     </div>
