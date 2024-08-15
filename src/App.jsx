@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Score from './components/Score';
 import Indicator from './components/Indicator';
 import io from 'socket.io-client';
@@ -52,7 +52,7 @@ function App() {
   },[]);
 
   function nHandleChange(e){
-    setplayerName([e.target.value(), '', '', '']);
+    setplayerName([e.target.value, '', '', '']);
   }
 
   function nHandleSubmit(e){
@@ -78,7 +78,7 @@ function App() {
       <div>
         <form onSubmit={nHandleSubmit}>
           <label htmlFor="enter">Enter a name to play</label>
-          <input type="text" id="enter" />
+          <input onChange={nHandleChange} type="text" id="enter" />
           <button type="submit">Submit</button>
         </form>
       </div>}
