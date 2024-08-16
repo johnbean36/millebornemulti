@@ -40,9 +40,24 @@ function App() {
       setplayerCount(size);
     }
 
+    function handleNewUser(users){
+      if(users.size > playerCount){
+        let count = 0;
+        users.forEach((value)=>{
+          if(!playerCount.includes(value)){
+            const index = playerName.findIndex((item)=>{
+              item === '';
+            });
+            playerName[index] = value.name;
+          }
+        });
+      }
+    }
+
     socket.on('connect', onConnect);
     socket.on('full', handleFull);
     socket.on('size', handleSize);
+    socket.on('new_user', handleNewUser);
 
     return () =>{
       socket.off('connect', onConnect);
