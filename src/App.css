@@ -13,8 +13,6 @@ header {
 
 .body {
   height: 100vh;
-  display: grid;
-  grid-template-rows: 0.1fr 1fr 1fr;
   background-color: #00acef;
 }
 
@@ -198,3 +196,30 @@ footer {
   display: flex;
   align-items: center;
 }
+
+#main {
+  display: grid;
+  grid-template-rows: 0.1fr 1fr 1fr;
+  background-color: #00acef;
+}
+
+#welcome {
+  font-weight: bold;
+}
+
+.enter-name {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  margin-top: 30vmin;
+}
+
+.button {
+  background-color: #A9A9A9;
+}
+
+.wstyling{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}  

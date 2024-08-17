@@ -5,6 +5,7 @@ import io from 'socket.io-client';
 const socket = io('localhost:3000');
 import './App.css';
 import Main from './components/Main';
+import Welcome from './components/Welcome';
 
 function App() {
 
@@ -60,6 +61,7 @@ function App() {
     socket.on('new_user', handleNewUser);
 
     return () =>{
+      setIsConnected(false);
       socket.off('connect', onConnect);
       socket.off('full', handleFull);
       socket.off('size', handleSize);
@@ -90,14 +92,9 @@ function App() {
           setLimitLight={setLimitLight} setEmergencyLight={setEmergencyLight} setAceLight={setAceLight} setTruckLight={setTruckLight}
           setPunctureLight={setPunctureLight} setGoLight={setGoLight}
         /></div> : 
-      <div>
-        <form onSubmit={nHandleSubmit}>
-          <label htmlFor="enter">Enter a name to play</label>
-          <input onChange={nHandleChange} type="text" id="enter" />
-          <button type="submit">Submit</button>
-        </form>
-      </div>}
+      <div><Welcome nHandleChange={nHandleChange} nHandleSubmit={nHandleSubmit} /></div>}
     </div>
+
   )
 }
 

@@ -1,6 +1,10 @@
+import '../App.css';
+import Score from './Score';
+import Indicator from './Indicator';
+
 function Main(){
     return (
-        <div>
+        <div id="main">
             <header>
             <h1>Mille Bornes</h1>
             <button type="button" id="bu">Play another game</button>
