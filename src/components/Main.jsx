@@ -2,12 +2,11 @@ import '../App.css';
 import Score from './Score';
 import Indicator from './Indicator';
 
-function Main(){
+function Main({playerName, playerDistance, playerRScore, playerTScore, playerCount, aLight, oogLight, stopS, flatLight, limitLight, emergencyLight, aceLight, truckLight, punctureLight, goLight}){
     return (
         <div id="main">
             <header>
-            <h1>Mille Bornes</h1>
-            <button type="button" id="bu">Play another game</button>
+            <h1>Welcome to Kilometre Coupe</h1>
         </header>
         <main>
             <section id="a">

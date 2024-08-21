@@ -59,6 +59,9 @@ function App() {
     socket.on('full', handleFull);
     socket.on('size', handleSize);
     socket.on('new_user', handleNewUser);
+    socket.on("message", (message)=>{
+      console.log(message);
+    })
 
     return () =>{
       setIsConnected(false);

@@ -3,8 +3,9 @@ import '../App.css';
 function Distance({player, distance, rscore, tscore}){
     return (
         <div className="player">
+            { `Player ${player}`}
             <div className="score">
-                <span>Player {`${player}`} Distance:</span>
+                <span>Distance:</span>
                 <div className="row2">{`${distance}`}</div>
             </div>
             <div className="score">

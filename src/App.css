@@ -32,8 +32,8 @@ main {
   justify-content: center;
   align-items: center;
   border: solid black;
-  width: 25vmin;
-  height: 37vmin;
+  width: 30vmin;
+  height: 45vmin;
   margin-left: 5vmin;
   background-color: grey;
 }
@@ -41,7 +41,6 @@ main {
 .score {
   display: grid;
   grid-template-columns: 1fr 0.5fr;
-  background-color: #c0c0c0;
   padding: 0.3vmin;
   height: 2vmin;
   width: 20vmin;
@@ -176,6 +175,8 @@ footer {
 
 .player {
   border: solid black;
+  height: 10vmin;
+  width: 25vmin;
   margin: 0.2vmin;
 }
 
