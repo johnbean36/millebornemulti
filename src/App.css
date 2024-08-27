@@ -8,12 +8,12 @@ header {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: #00acef;
+  background-color: #F5F5DC;
 }
 
 .body {
   height: 100vh;
-  background-color: #00acef;
+  background-color: #F5F5DC;
 }
 
 main {
@@ -23,7 +23,7 @@ main {
 }
 
 #a {
-  background-color: #00acef;
+  background-color: #F5F5DC;
 }
 
 #board {
@@ -59,7 +59,7 @@ main {
 }
 
 #b {
-  background-color: #00acef;
+  background-color: #F5F5DC;
   display: grid;
   grid-template-rows: 1fr 0.5fr;
 }
@@ -94,7 +94,7 @@ main {
 }
 
 #c {
-  background-color: #00acef;
+  background-color: #F5F5DC;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -168,7 +168,7 @@ button {
 }
 
 footer {
-  background-color: #00acef;
+  background-color: #F5F5DC;
   display: grid;
   grid-template-rows: 1fr 1fr;
 }
@@ -201,7 +201,7 @@ footer {
 #main {
   display: grid;
   grid-template-rows: 0.1fr 1fr 1fr;
-  background-color: #00acef;
+  background-color: #F5F5DC;
 }
 
 #welcome {
@@ -212,7 +212,6 @@ footer {
   height: 100vh;
   display: flex;
   justify-content: center;
-  margin-top: 30vmin;
 }
 
 .button {
@@ -223,4 +222,9 @@ footer {
   display: flex;
   flex-direction: column;
   align-items: center;
-}  
+}
+
+.banner {
+  max-height: 30vmin;
+  margin: 10vmin;
+}

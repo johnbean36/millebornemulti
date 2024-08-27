@@ -13,6 +13,7 @@ function App() {
   const [hasName, sethasName] = useState(false);
   const [playerCount, setplayerCount] = useState(0);
   const [playerName, setplayerName ] = useState(['', '', '', '']);
+  const [playerId, setplayerId] = useState(['', '', '', '']);
   const [playerDistance, setplayerDistance] = useState([0, 0, 0, 0]);
   const [playerRScore, setplayerRScore] = useState([0, 0, 0, 0]);
   const [playerTScore, setplayerTScore] = useState([0, 0, 0, 0])
@@ -41,24 +42,37 @@ function App() {
       setplayerCount(size);
     }
 
-    function handleNewUser(users){
-      if(users.size > playerCount){
-        let count = 0;
-        users.forEach((value)=>{
-          if(!playerCount.includes(value)){
-            const index = playerName.findIndex((item)=>{
-              item === '';
-            });
-            playerName[index] = value.name;
-          }
-        });
+    function handleNewUser(user){
+      let updatedName;
+      let updatedId;
+      let index;
+      for(let i = 0; i < playerName.length; i++){
+        if(playerName[i] === ''){
+          index = i;
+          break;
+        }
       }
+      updatedName = [...playerName];
+      updatedId = [...playerId];
+      updatedName[index] = user.name;
+      updatedId[index] = user.id;
+      setplayerName(updatedName);
+      setplayerId(updatedId)
+    }
+
+    function handleOwnId(id){
+      setplayerId((prevId)=>{
+        let updatedId = [...prevId];
+        updatedId[0] = id;
+        return updatedId;
+      });
     }
 
     socket.on('connect', onConnect);
     socket.on('full', handleFull);
     socket.on('size', handleSize);
     socket.on('new_user', handleNewUser);
+    socket.on('own_id', handleOwnId);
     socket.on("message", (message)=>{
       console.log(message);
     })

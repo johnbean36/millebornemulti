@@ -9,13 +9,13 @@ function Indicator({playerCount, hazard, light}){
             <div className="lights">
                 <div className="ind">Player 1</div>
                 <div className="plight">
-                    <img className="light" id="p1a" src={`../../public/images/${light[0]}.png`} />
+                    <img className="light" id="p1a" src={`../../images/${light[0]}.png`} />
                 </div>
             </div>
             <div className="lights">
                 <div className="ind">Player 2</div>
                 <div className="plight">
-                    <img className="light" id="p2a" src={`../../public/images/${light[1]}.png`} />
+                    <img className="light" id="p2a" src={`../../images/${light[1]}.png`} />
                 </div>
             </div>
             <div className="lights">
@@ -27,7 +27,7 @@ function Indicator({playerCount, hazard, light}){
                     {playerCount > 2 ? 
                     <div>
                         <div className="plight">
-                            <img className="light" id="p2a" src={`../../public/images/${light[2]}.png`} />
+                            <img className="light" id="p2a" src={`../../images/${light[2]}.png`} />
                         </div>
                     </div>            
                     : <div></div>}
@@ -39,7 +39,7 @@ function Indicator({playerCount, hazard, light}){
                 {playerCount > 3 ? 
                     <div>
                         <div className="plight">
-                            <img className="light" id="p2a" src={`../../public/images/${light[3]}.png`} />
+                            <img className="light" id="p2a" src={`../../images/${light[3]}.png`} />
                         </div>
                     </div>:<div></div>}
             </div>

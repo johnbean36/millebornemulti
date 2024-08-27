@@ -4,7 +4,7 @@ function Welcome({nHandleSubmit, nHandleChange}){
     return (
         <div className="enter-name">
             <div>
-                <h1 id="welcome">Welcome to Kilometer Coupe</h1>
+                <img className="banner" src="../../images/banner.png" />
                 <form onSubmit={nHandleSubmit}>
                     <div className="wstyling">
                         <div>
