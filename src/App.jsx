@@ -42,39 +42,33 @@ function App() {
       setplayerCount(size);
     }
 
-    function handleNewUser(user){
-      let updatedName;
-      let updatedId;
-      let index;
-      for(let i = 0; i < playerName.length; i++){
-        if(playerName[i] === ''){
-          index = i;
-          break;
-        }
-      }
-      updatedName = [...playerName];
-      updatedId = [...playerId];
-      updatedName[index] = user.name;
-      updatedId[index] = user.id;
-      setplayerName(updatedName);
-      setplayerId(updatedId)
-    }
-
-    function handleOwnId(id){
-      setplayerId((prevId)=>{
-        let updatedId = [...prevId];
-        updatedId[0] = id;
-        return updatedId;
-      });
-    }
-
     socket.on('connect', onConnect);
     socket.on('full', handleFull);
     socket.on('size', handleSize);
-    socket.on('new_user', handleNewUser);
-    socket.on('own_id', handleOwnId);
-    socket.on("message", (message)=>{
-      console.log(message);
+    socket.on('new_user', (user)=>{
+      setplayerName((name)=>{
+        let updatedName = [...name];
+        let updatedId;
+        let index = -1;
+        for(let i = 1; i < name.length; i++){
+          if(name[i] === ''){
+            index = i;
+            break;
+          }
+        }
+        updatedId = [...playerId];
+        updatedName[index] = user.name;
+        updatedId[index] = user.id;
+        setplayerId(updatedId)
+        return updatedName;
+      })
+    });
+
+    socket.on('own_id', (id)=>{
+      setplayerId(id);
+    })
+    socket.on("error", (msg)=>{
+      console.log(msg);
     })
 
     return () =>{

@@ -11,13 +11,15 @@ function Main({playerName, playerDistance, playerRScore, playerTScore, playerCou
         <main>
             <section id="a">
             <div id="board">
-                <Score player={playerName[0]} distance={playerDistance[0]} rscore={playerRScore[0]} tscore={playerTScore[0]} />
-                { playerCount > 2 ? 
-                <Score player={playerName[1]} distance={playerDistance[1]} rscore={playerRScore[1]} tscore={playerTScore[1]} />
+                <Score playerName={playerName[0]} distance={playerDistance[0]} rscore={playerRScore[0]} tscore={playerTScore[0]} />
+                { playerCount > 1 ? 
+                <Score playerName={playerName[1]} distance={playerDistance[1]} rscore={playerRScore[1]} tscore={playerTScore[1]} />
                 :<div></div>}
-                <Score player={playerName[2]} distance={playerDistance[2]} rscore={playerRScore[2]} tscore={playerTScore[2]} />
+                { playerCount > 2 ? 
+                <Score playerName={playerName[1]} distance={playerDistance[1]} rscore={playerRScore[1]} tscore={playerTScore[1]} />
+                :<div></div>}
                 { playerCount > 3 ? 
-                <Score player={playerName[3]} distance={playerDistance[3]} rscore={playerRScore[3]} tscore={playerTScore[3]} />
+                <Score playerName={playerName[3]} distance={playerDistance[3]} rscore={playerRScore[3]} tscore={playerTScore[3]} />
             :<div></div>}
             </div>
             </section>
