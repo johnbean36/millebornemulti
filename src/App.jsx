@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import Score from './components/Score';
 import Indicator from './components/Indicator';
 import io from 'socket.io-client';
@@ -9,8 +9,9 @@ import Welcome from './components/Welcome';
 
 function App() {
 
-  const [isConnected, setIsConnected] = useState(socket.connected);
+  const [isConnected, setIsConnected] = useState(false);
   const [hasName, sethasName] = useState(false);
+  const [firstEmpty, setfirstEmpty] = useState(1);
   const [playerCount, setplayerCount] = useState(0);
   const [playerName, setplayerName ] = useState(['', '', '', '']);
   const [playerId, setplayerId] = useState(['', '', '', '']);
@@ -29,55 +30,66 @@ function App() {
   const [punctureLight, setPunctureLight] = useState(['light', 'light', 'light', 'light']);
   const [goLight, setGoLight] = useState(['light', 'light', 'light', 'light']);
 
-  useEffect(()=>{
-    function onConnect(){
-      setIsConnected(true);
-    }
+  function onConnect(){
+    setIsConnected(true);
+  }
 
-    function handleFull(){
-      console.log("The server is currently full");
-    }
+  function handleFull(){
+    console.log("The server is currently full");
+  }
 
-    function handleSize(size){
-      setplayerCount(size);
-    }
+  function handleSize(size){
+    setplayerCount(size);
+  }
 
-    socket.on('connect', onConnect);
-    socket.on('full', handleFull);
-    socket.on('size', handleSize);
-    socket.on('new_user', (user)=>{
-      setplayerName((name)=>{
-        let updatedName = [...name];
-        let updatedId;
-        let index = -1;
-        for(let i = 1; i < name.length; i++){
-          if(name[i] === ''){
-            index = i;
-            break;
-          }
-        }
-        updatedId = [...playerId];
-        updatedName[index] = user.name;
-        updatedId[index] = user.id;
-        setplayerId(updatedId)
-        return updatedName;
-      })
+  function handleOwnId(id){
+    setplayerId((ownid)=>{
+      let updatedId = [...ownid];
+      updatedId[0] = id;
+      return updatedId;
+    })
+  }
+
+  function handleError(msg){
+    console.log(msg);
+  }
+
+  function handleSetEmpty(empty){
+    setfirstEmpty(empty);
+  }
+
+  function handleSetPlayerId(id){
+    setplayerId(id);
+  }
+
+  const handleNewUser = useCallback((user)=>{
+    const playerNames = user.names;
+    const playerIds = user.ids;
+    let number = playerNames.length;
+    let updated;
+    let updatedId = [...playerId];
+    let empty = 1;
+    setfirstEmpty((e)=>{
+      empty = e;
+      return e;
     });
-
-    socket.on('own_id', (id)=>{
-      setplayerId(id);
+    setplayerCount(number);
+    setplayerName((name)=>{
+      updated = [...name];
+      for(let x = 0; x < playerNames.length; x++){
+        if(name.includes(playerNames[x])){
+          continue;
+        }
+        updated[empty] = playerNames[x];
+        updatedId[empty] = playerIds[x];
+        empty = empty + 1;
+      }
+      handleSetEmpty(empty);
+      handleSetPlayerId(updatedId);
+      return updated;
     })
-    socket.on("error", (msg)=>{
-      console.log(msg);
-    })
 
-    return () =>{
-      setIsConnected(false);
-      socket.off('connect', onConnect);
-      socket.off('full', handleFull);
-      socket.off('size', handleSize);
-    }
-  },[]);
+  },[firstEmpty, playerName, playerId]);
 
   function nHandleChange(e){
     setplayerName([e.target.value, '', '', '']);
@@ -86,8 +98,29 @@ function App() {
   function nHandleSubmit(e){
     e.preventDefault();
     sethasName(true);
-    socket.emit("name", playerName[0]);
+    socket.emit('name', playerName[0]);
   }
+
+  useEffect(()=>{
+    socket.on('connect', onConnect);
+    socket.on('full', handleFull);
+    socket.on('own_id', handleOwnId);
+    socket.on('size', handleSize);
+    socket.on('error', handleError);
+    socket.on('new_user', handleNewUser);
+    
+    return ()=>{
+      setIsConnected(false);
+      socket.off('connect', onConnect);
+      socket.off('size', handleSize);
+      socket.off('full', handleFull);
+      socket.off("error", handleError);
+      socket.off("own_id", handleOwnId);
+      socket.off('new_user', handleNewUser);
+    }
+  },[])
+
+
 
   return (
     <div className="body">

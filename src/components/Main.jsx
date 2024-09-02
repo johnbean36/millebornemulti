@@ -16,7 +16,7 @@ function Main({playerName, playerDistance, playerRScore, playerTScore, playerCou
                 <Score playerName={playerName[1]} distance={playerDistance[1]} rscore={playerRScore[1]} tscore={playerTScore[1]} />
                 :<div></div>}
                 { playerCount > 2 ? 
-                <Score playerName={playerName[1]} distance={playerDistance[1]} rscore={playerRScore[1]} tscore={playerTScore[1]} />
+                <Score playerName={playerName[2]} distance={playerDistance[2]} rscore={playerRScore[2]} tscore={playerTScore[2]} />
                 :<div></div>}
                 { playerCount > 3 ? 
                 <Score playerName={playerName[3]} distance={playerDistance[3]} rscore={playerRScore[3]} tscore={playerTScore[3]} />
