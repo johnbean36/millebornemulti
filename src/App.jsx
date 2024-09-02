@@ -29,6 +29,11 @@ function App() {
   const [truckLight, setTruckLight] = useState(['light', 'light', 'light', 'light']);
   const [punctureLight, setPunctureLight] = useState(['light', 'light', 'light', 'light']);
   const [goLight, setGoLight] = useState(['light', 'light', 'light', 'light']);
+  const [serverNames, setserverNames] = useState([]);
+  const [cardNames] = useState(['25kilo.png', '50kilo.png', '75kilo.png', '100kilo.png', '200k.png', 'accident.png', 'driving_ace.png',
+                                 'emergency_vehicle.png', 'end_of_speedlimit.png', 'flattire.png', 'fueltruck.png', 'gasoline.png', 'greenlight.png',
+                                 'out_of_gas.png', 'puncture_proof.png', 'repairs.png', 'spare-tire.png', 'speed_limit.png', 'stoplight.png'
+                                ]);
 
   function onConnect(){
     setIsConnected(true);
@@ -91,6 +96,10 @@ function App() {
 
   },[firstEmpty, playerName, playerId]);
 
+  function handleStart(){
+    socket.emit("get_names");
+  }
+
   function nHandleChange(e){
     setplayerName([e.target.value, '', '', '']);
   }
@@ -101,6 +110,10 @@ function App() {
     socket.emit('name', playerName[0]);
   }
 
+  function handleSNames(names){
+    setserverNames(names);
+  }
+
   useEffect(()=>{
     socket.on('connect', onConnect);
     socket.on('full', handleFull);
@@ -108,6 +121,8 @@ function App() {
     socket.on('size', handleSize);
     socket.on('error', handleError);
     socket.on('new_user', handleNewUser);
+    socket.on('start', handleStart);
+    socket.on("snames", handleSNames);
     
     return ()=>{
       setIsConnected(false);
@@ -117,6 +132,8 @@ function App() {
       socket.off("error", handleError);
       socket.off("own_id", handleOwnId);
       socket.off('new_user', handleNewUser);
+      socket.off('start', handleStart);
+      socket.off('snames', handleSNames);
     }
   },[])
 
@@ -127,14 +144,37 @@ function App() {
       { hasName ? 
       <div>
         <Main 
-          playerCount={playerCount} playerName={playerName} playerDistance={playerDistance} playerRScore={playerRScore}
-          playerTScore={playerTScore} accident={accident} aLight={aLight} oogLight={oogLight} stopS={stopS}        
-          flatLight={flatLight} limitLight={limitLight} emergencyLight={emergencyLight} aceLight={aceLight}
-          truckLight={truckLight} punctureLight={punctureLight} goLight={goLight} setplayerDistance={setplayerDistance}
-          setplayerRScore={setplayerRScore} setplayerTScore={setplayerTScore} setAccident={setAccident}
-          setALight={setALight} setoogLight={setoogLight} setStopS={setStopS} setFlatLight={setFlatLight}
-          setLimitLight={setLimitLight} setEmergencyLight={setEmergencyLight} setAceLight={setAceLight} setTruckLight={setTruckLight}
-          setPunctureLight={setPunctureLight} setGoLight={setGoLight}
+          playerCount={playerCount}
+          playerName={playerName}
+          playerDistance={playerDistance}
+          playerRScore={playerRScore}
+          playerTScore={playerTScore}
+          accident={accident}
+          aLight={aLight}
+          oogLight={oogLight}
+          stopS={stopS}        
+          flatLight={flatLight}
+          limitLight={limitLight}
+          emergencyLight={emergencyLight}
+          aceLight={aceLight}
+          truckLight={truckLight}
+          punctureLight={punctureLight}
+          goLight={goLight}
+          setplayerDistance={setplayerDistance}
+          setplayerRScore={setplayerRScore}
+          setplayerTScore={setplayerTScore}
+          setAccident={setAccident}
+          setALight={setALight}
+          setoogLight={setoogLight}
+          setStopS={setStopS}
+          setFlatLight={setFlatLight}
+          setLimitLight={setLimitLight}
+          setEmergencyLight={setEmergencyLight}
+          setAceLight={setAceLight}
+          setTruckLight={setTruckLight}
+          setPunctureLight={setPunctureLight}
+          setGoLight={setGoLight}
+          cardNames={cardNames}
         /></div> : 
       <div><Welcome nHandleChange={nHandleChange} nHandleSubmit={nHandleSubmit} /></div>}
     </div>
