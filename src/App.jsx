@@ -97,7 +97,8 @@ function App() {
   },[firstEmpty, playerName, playerId]);
 
   function handleStart(){
-    socket.emit("get_names");
+    socket.emit('get_names');
+    socket.emit('fdeal');
   }
 
   function nHandleChange(e){
@@ -114,6 +115,10 @@ function App() {
     setserverNames(names);
   }
 
+  function handleNewDeck(deck){
+    console.log(deck);
+  }
+
   useEffect(()=>{
     socket.on('connect', onConnect);
     socket.on('full', handleFull);
@@ -123,6 +128,7 @@ function App() {
     socket.on('new_user', handleNewUser);
     socket.on('start', handleStart);
     socket.on("snames", handleSNames);
+    socket.on('new_deck', handleNewDeck);
     
     return ()=>{
       setIsConnected(false);
@@ -134,6 +140,7 @@ function App() {
       socket.off('new_user', handleNewUser);
       socket.off('start', handleStart);
       socket.off('snames', handleSNames);
+      socket.off('new_deck', handleNewDeck);
     }
   },[])
 
