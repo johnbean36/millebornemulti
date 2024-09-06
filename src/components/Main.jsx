@@ -1,12 +1,14 @@
 import '../App.css';
 import Score from './Score';
 import Indicator from './Indicator';
+import Card from './Card';
+import Play from './Play';
 
-function Main({playerName, playerDistance, playerRScore, playerTScore, playerCount, aLight, oogLight, stopS, flatLight, limitLight, emergencyLight, aceLight, truckLight, punctureLight, goLight}){
+function Main({deckNames, playerName, playerDistance, playerRScore, playerTScore, playerCount, aLight, oogLight, stopS, flatLight, limitLight, emergencyLight, aceLight, truckLight, punctureLight, goLight, cDeck}){
     return (
         <div id="main">
             <header>
-            <h1>Welcome to Kilometre Coupe</h1>
+            <h1>Kilometre Coupe</h1>
         </header>
         <main>
             <section id="a">
@@ -24,7 +26,10 @@ function Main({playerName, playerDistance, playerRScore, playerTScore, playerCou
             </div>
             </section>
             <section id="b">
-
+                    <Play player={playerName[0]} />
+                    <Play player={playerName[1]} />
+                    <Play player={playerName[2]} />
+                    <Play player={playerName[3]} />
             </section>
             <section id="c">
             <div className="indicators">
@@ -48,12 +53,12 @@ function Main({playerName, playerDistance, playerRScore, playerTScore, playerCou
         </main>
         <footer>
             <section className="hand" id="hand">
-                <div id="card1"></div>
-                <div id="card2"></div>
-                <div id="card3"></div>
-                <div id="card4"></div>
-                <div id="card5"></div>
-                <div id="card6"></div>
+                <div id="card1"><Card deckName={deckNames[0]} cDeck={cDeck[0]} /></div>
+                <div id="card2"><Card deckName={deckNames[1]} cDeck={cDeck[1]} /></div>
+                <div id="card3"><Card deckName={deckNames[2]} cDeck={cDeck[2]} /></div>
+                <div id="card4"><Card deckName={deckNames[3]} cDeck={cDeck[3]} /></div>
+                <div id="card5"><Card deckName={deckNames[4]} cDeck={cDeck[4]} /></div>
+                <div id="card6"><Card deckName={deckNames[5]} cDeck={cDeck[5]} /></div>
             </section>
             <section id="buttonS">
             </section>

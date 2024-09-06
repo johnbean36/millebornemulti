@@ -29,11 +29,13 @@ function App() {
   const [truckLight, setTruckLight] = useState(['light', 'light', 'light', 'light']);
   const [punctureLight, setPunctureLight] = useState(['light', 'light', 'light', 'light']);
   const [goLight, setGoLight] = useState(['light', 'light', 'light', 'light']);
+  const [cDeck, setCDeck] = useState([]);
   const [serverNames, setserverNames] = useState([]);
   const [cardNames] = useState(['25kilo.png', '50kilo.png', '75kilo.png', '100kilo.png', '200k.png', 'accident.png', 'driving_ace.png',
                                  'emergency_vehicle.png', 'end_of_speedlimit.png', 'flattire.png', 'fueltruck.png', 'gasoline.png', 'greenlight.png',
                                  'out_of_gas.png', 'puncture_proof.png', 'repairs.png', 'spare-tire.png', 'speed_limit.png', 'stoplight.png'
                                 ]);
+  const [deckNames, setDeckNames] = useState([])
 
   function onConnect(){
     setIsConnected(true);
@@ -98,7 +100,6 @@ function App() {
 
   function handleStart(){
     socket.emit('get_names');
-    socket.emit('fdeal');
   }
 
   function nHandleChange(e){
@@ -113,10 +114,73 @@ function App() {
 
   function handleSNames(names){
     setserverNames(names);
+    socket.emit('fdeal');
   }
 
   function handleNewDeck(deck){
-    console.log(deck);
+    const cards = [];
+    for( let x = 0; x < 6; x++){
+      //25kilo
+      if(deck[x] >= 0 && deck[x] <= 9){
+        cards.push(cardNames[0]);
+      } //50kilo
+      else if(deck[x] >= 10 && deck[x] <= 19){
+        cards.push(cardNames[1]);
+      }  //75kilo
+      else if(deck[x] >= 20 && deck[x] <= 29){
+        cards.push(cardNames[2]);
+      }  //100kilo
+      else if(deck[x] >= 30 && deck[x] <= 41){
+        cards.push(cardNames[3]);
+      }  //200kilo
+      else if(deck[x] >= 42 && deck[x] <= 45){
+        cards.push(cardNames[4]);
+      } //accident
+      else if(deck[x] >= 46 && deck[x] <= 48){
+        cards.push(cardNames[5]);
+      }  //out of gas
+      else if(deck[x] >= 49 && deck[x] <= 51){
+        cards.push(cardNames[13]);
+      }
+      else if(deck[x] >= 52 && deck[x] <= 54){
+        cards.push(cardNames[9]);
+      }
+      else if(deck[x] >= 55 && deck[x] <= 59){
+        cards.push(cardNames[18])
+      }
+      else if(deck[x] >= 60 && deck[x] <= 63){
+        cards.push(cardNames[17]);
+      }
+      else if(deck[x] >= 64 && deck[x] <= 69){
+        cards.push(cardNames[15]);
+      }
+      else if(deck[x] >= 70 && deck[x] <= 75){
+        cards.push(cardNames[11]);
+      }
+      else if(deck[x] >= 76 && deck[x] <= 81){
+        cards.push(cardNames[16]);
+      }
+      else if(deck[x] >= 82 && deck[x] <= 95){
+        cards.push(cardNames[12]);
+      }
+      else if(deck[x] >= 96 && deck[x] <= 101){
+        cards.push(cardNames[8]);
+      }
+      else if(deck[x] === 102){
+        cards.push(cardNames[6]);
+      }
+      else if(deck[x] === 103){
+        cards.push(cardNames[10]);
+      }
+      else if(deck[x] === 104){
+        cards.push(cardNames[15]);
+      }
+      else if(deck[x] === 105){
+        cards.push(cardNames[8]);
+      }
+    }
+    setDeckNames(cards);
+    setCDeck(deck);
   }
 
   useEffect(()=>{
@@ -181,7 +245,8 @@ function App() {
           setTruckLight={setTruckLight}
           setPunctureLight={setPunctureLight}
           setGoLight={setGoLight}
-          cardNames={cardNames}
+          deckNames={deckNames}
+          cDeck={cDeck}
         /></div> : 
       <div><Welcome nHandleChange={nHandleChange} nHandleSubmit={nHandleSubmit} /></div>}
     </div>
