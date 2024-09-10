@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import Score from './components/Score';
 import Indicator from './components/Indicator';
 import io from 'socket.io-client';
@@ -10,6 +10,7 @@ import Welcome from './components/Welcome';
 function App() {
 
   const [isConnected, setIsConnected] = useState(false);
+  const [turn, setTurn] = useState(false);
   const [hasName, sethasName] = useState(false);
   const [firstEmpty, setfirstEmpty] = useState(1);
   const [playerCount, setplayerCount] = useState(0);
@@ -36,6 +37,11 @@ function App() {
                                  'out_of_gas.png', 'puncture_proof.png', 'repairs.png', 'spare-tire.png', 'speed_limit.png', 'stoplight.png'
                                 ]);
   const [deckNames, setDeckNames] = useState([])
+  const stateRef = useRef(playerId);
+
+  useEffect(()=>{
+    stateRef.current = playerId;
+  },[playerId])
 
   function onConnect(){
     setIsConnected(true);
@@ -50,11 +56,10 @@ function App() {
   }
 
   function handleOwnId(id){
-    setplayerId((ownid)=>{
-      let updatedId = [...ownid];
-      updatedId[0] = id;
-      return updatedId;
-    })
+    let updatedId;
+    updatedId = [...stateRef.current];
+    updatedId[0] = id;
+    setplayerId(updatedId);
   }
 
   function handleError(msg){
@@ -74,13 +79,16 @@ function App() {
     const playerIds = user.ids;
     let number = playerNames.length;
     let updated;
-    let updatedId = [...playerId];
+    let updatedId = [...stateRef.current];
     let empty = 1;
     setfirstEmpty((e)=>{
       empty = e;
       return e;
     });
     setplayerCount(number);
+    if(number === 1){
+      return;
+    }
     setplayerName((name)=>{
       updated = [...name];
       for(let x = 0; x < playerNames.length; x++){
@@ -92,6 +100,7 @@ function App() {
         empty = empty + 1;
       }
       handleSetEmpty(empty);
+      //console.log(updatedId);
       handleSetPlayerId(updatedId);
       return updated;
     })
@@ -117,7 +126,11 @@ function App() {
     socket.emit('fdeal');
   }
 
-  function handleNewDeck(deck){
+  function handleSetTurn(value){
+    setTurn(value);
+  }
+
+  const handleNewDeck = useCallback((deck)=>{
     const cards = [];
     for( let x = 0; x < 6; x++){
       //25kilo
@@ -181,7 +194,18 @@ function App() {
     }
     setDeckNames(cards);
     setCDeck(deck);
-  }
+    let ids = [];
+    setplayerId((id)=>{
+      ids = [...id]
+      return id;
+    })
+    setserverNames((names)=>{
+      if(names[0] === ids[0]){
+        handleSetTurn(true);
+      }
+      return names;
+    })
+  },[playerId])
 
   useEffect(()=>{
     socket.on('connect', onConnect);
@@ -247,6 +271,7 @@ function App() {
           setGoLight={setGoLight}
           deckNames={deckNames}
           cDeck={cDeck}
+          turn={turn}
         /></div> : 
       <div><Welcome nHandleChange={nHandleChange} nHandleSubmit={nHandleSubmit} /></div>}
     </div>

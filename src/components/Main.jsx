@@ -4,11 +4,11 @@ import Indicator from './Indicator';
 import Card from './Card';
 import Play from './Play';
 
-function Main({deckNames, playerName, playerDistance, playerRScore, playerTScore, playerCount, aLight, oogLight, stopS, flatLight, limitLight, emergencyLight, aceLight, truckLight, punctureLight, goLight, cDeck}){
+function Main({turn, deckNames, playerName, playerDistance, playerRScore, playerTScore, playerCount, aLight, oogLight, stopS, flatLight, limitLight, emergencyLight, aceLight, truckLight, punctureLight, goLight, cDeck}){
     return (
         <div id="main">
             <header>
-            <h1>Kilometre Coupe</h1>
+            <img className="mbanner" src="../../images/mbanner.png" />
         </header>
         <main>
             <section id="a">
@@ -51,18 +51,19 @@ function Main({deckNames, playerName, playerDistance, playerRScore, playerTScore
             </section>
 
         </main>
-        <footer>
-            <section className="hand" id="hand">
+        <div>
+            <div className="hand" id="hand">
                 <div id="card1"><Card deckName={deckNames[0]} cDeck={cDeck[0]} /></div>
                 <div id="card2"><Card deckName={deckNames[1]} cDeck={cDeck[1]} /></div>
                 <div id="card3"><Card deckName={deckNames[2]} cDeck={cDeck[2]} /></div>
                 <div id="card4"><Card deckName={deckNames[3]} cDeck={cDeck[3]} /></div>
                 <div id="card5"><Card deckName={deckNames[4]} cDeck={cDeck[4]} /></div>
                 <div id="card6"><Card deckName={deckNames[5]} cDeck={cDeck[5]} /></div>
-            </section>
-            <section id="buttonS">
-            </section>
-        </footer>
+            </div>
+            <div className="turn">
+                <div>{turn ? <div>Play a card</div>:<div></div>}</div>
+            </div>
+        </div>
     </div>
     )
 }
