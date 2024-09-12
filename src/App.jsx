@@ -130,53 +130,107 @@ function App() {
     setTurn(value);
   }
 
+  function convert(index){
+    if(index >= 0 && index <= 9){
+      return '25';
+    }
+    else if(index >= 10 && index <= 19){
+      return '50';
+    }
+    else if(index >= 20 && index <= 29){
+      return '75';
+    }
+    else if(index >= 30 && index <= 41){
+      return '100';
+    }
+    else if(index >= 42 && index <= 45){
+      return '200';
+    }
+    else if(index >= 46 && index <= 48){
+      return 'accident';
+    }
+    else if(index >= 49 && index <= 51){
+      return 'out of gas';
+    }
+    else if(index >= 52 && index <= 54){
+      return 'flat tire';
+    }
+    else if(index >= 55 && index <= 59){
+      return 'stop light';
+    }
+    else if(index >= 60 && index <= 63){
+      return 'speed limit';
+    }
+    else if(index >= 64 && index <= 69){
+      return 'repairs';
+    }
+    else if(index >= 70 && index <= 75){
+      return 'gasoline';
+    }
+    else if(index >= 76 && index <= 81){
+      return 'spare tire';
+    }
+    else if(index >= 82 && index <= 95){
+      return 'green light';
+    }
+    else if(index >= 96 && index <= 101){
+      return 'end of limit';
+    }
+  }
+
+  function playCard(player, index){
+    const card = convert(index);
+  }
+
   const handleNewDeck = useCallback((deck)=>{
     const cards = [];
+    let cardId = '';
     for( let x = 0; x < 6; x++){
       //25kilo
-      if(deck[x] >= 0 && deck[x] <= 9){
+      cardId = convert(deck[x]);
+      if(cardId === '25'){
         cards.push(cardNames[0]);
       } //50kilo
-      else if(deck[x] >= 10 && deck[x] <= 19){
+      else if(cardId === '50'){
         cards.push(cardNames[1]);
       }  //75kilo
-      else if(deck[x] >= 20 && deck[x] <= 29){
+      else if(cardId === '75'){
         cards.push(cardNames[2]);
       }  //100kilo
-      else if(deck[x] >= 30 && deck[x] <= 41){
+      else if(cardId === '100'){
         cards.push(cardNames[3]);
       }  //200kilo
-      else if(deck[x] >= 42 && deck[x] <= 45){
+      else if(cardId === '200'){
         cards.push(cardNames[4]);
       } //accident
-      else if(deck[x] >= 46 && deck[x] <= 48){
+      else if(cardId === 'accident'){
         cards.push(cardNames[5]);
       }  //out of gas
-      else if(deck[x] >= 49 && deck[x] <= 51){
+      else if(cardId === 'out of gas'){
         cards.push(cardNames[13]);
-      }
-      else if(deck[x] >= 52 && deck[x] <= 54){
+      }  // flat tire
+      else if(cardId === 'flat tire'){
         cards.push(cardNames[9]);
-      }
-      else if(deck[x] >= 55 && deck[x] <= 59){
+      }  //stop light
+      else if(cardId === 'stop light'){
         cards.push(cardNames[18])
-      }
-      else if(deck[x] >= 60 && deck[x] <= 63){
+      }  //speed limit
+      else if(cardId === 'speed limit'){
         cards.push(cardNames[17]);
-      }
-      else if(deck[x] >= 64 && deck[x] <= 69){
+      }  //repairs
+      else if(cardId === 'repairs'){
         cards.push(cardNames[15]);
-      }
-      else if(deck[x] >= 70 && deck[x] <= 75){
+      }  //gasoline
+      else if(cardId === 'gasoline'){
         cards.push(cardNames[11]);
-      }
-      else if(deck[x] >= 76 && deck[x] <= 81){
+      }  //spare tire
+      else if(cardId === 'spare tire'){
         cards.push(cardNames[16]);
-      }
-      else if(deck[x] >= 82 && deck[x] <= 95){
+      }  //green light
+      else if(cardId === 'green light'){
         cards.push(cardNames[12]);
       }
-      else if(deck[x] >= 96 && deck[x] <= 101){
+      else if(cardId === 'end of limit'){
         cards.push(cardNames[8]);
       }
       else if(deck[x] === 102){
@@ -272,6 +326,9 @@ function App() {
           deckNames={deckNames}
           cDeck={cDeck}
           turn={turn}
+          playCard={playCard}
+          setTurn={setTurn}
+          playerId={playerId}
         /></div> : 
       <div><Welcome nHandleChange={nHandleChange} nHandleSubmit={nHandleSubmit} /></div>}
     </div>

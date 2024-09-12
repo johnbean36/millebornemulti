@@ -4,7 +4,7 @@ import Indicator from './Indicator';
 import Card from './Card';
 import Play from './Play';
 
-function Main({turn, deckNames, playerName, playerDistance, playerRScore, playerTScore, playerCount, aLight, oogLight, stopS, flatLight, limitLight, emergencyLight, aceLight, truckLight, punctureLight, goLight, cDeck}){
+function Main({setTurn, playerId, turn, deckNames, playerName, playerDistance, playerRScore, playerTScore, playerCount, aLight, oogLight, stopS, flatLight, limitLight, emergencyLight, aceLight, truckLight, punctureLight, goLight, cDeck, playCard}){
     return (
         <div id="main">
             <header>
@@ -26,10 +26,10 @@ function Main({turn, deckNames, playerName, playerDistance, playerRScore, player
             </div>
             </section>
             <section id="b">
-                    <Play player={playerName[0]} />
-                    <Play player={playerName[1]} />
-                    <Play player={playerName[2]} />
-                    <Play player={playerName[3]} />
+                    <Play setTurn={setTurn} playCard={playCard} player={playerId[0]} />
+                    <Play setTurn={setTurn} playCard={playCard} player={playerId[1]} />
+                    <Play setTurn={setTurn} playCard={playCard} player={playerId[2]} />
+                    <Play setTurn={setTurn} playCard={playCard} player={playerId[3]} />
             </section>
             <section id="c">
             <div className="indicators">
