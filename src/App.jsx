@@ -19,7 +19,6 @@ function App() {
   const [playerDistance, setplayerDistance] = useState([0, 0, 0, 0]);
   const [playerRScore, setplayerRScore] = useState([0, 0, 0, 0]);
   const [playerTScore, setplayerTScore] = useState([0, 0, 0, 0])
-  const [accident, setAccident] = useState([false, false, false, false])
   const [aLight, setALight] = useState(['light', 'light', 'light', 'light']);
   const [oogLight, setoogLight] = useState(['light', 'light', 'light', 'light']);
   const [stopS, setStopS] = useState(['light', 'light', 'light', 'light']);
@@ -32,16 +31,31 @@ function App() {
   const [goLight, setGoLight] = useState(['light', 'light', 'light', 'light']);
   const [cDeck, setCDeck] = useState([]);
   const [serverNames, setserverNames] = useState([]);
+  const [error, setError] = useState("");
   const [cardNames] = useState(['25kilo.png', '50kilo.png', '75kilo.png', '100kilo.png', '200k.png', 'accident.png', 'driving_ace.png',
                                  'emergency_vehicle.png', 'end_of_speedlimit.png', 'flattire.png', 'fueltruck.png', 'gasoline.png', 'greenlight.png',
                                  'out_of_gas.png', 'puncture_proof.png', 'repairs.png', 'spare-tire.png', 'speed_limit.png', 'stoplight.png'
                                 ]);
   const [deckNames, setDeckNames] = useState([])
   const stateRef = useRef(playerId);
+  const goRef = useRef(goLight);
+  const distanceRef = useRef(playerDistance);
+  const emergencyRef = useRef(emergencyLight);
+  const limitRef = useRef(limitLight);
+  const accRef = useRef(aLight);
+  const oogRef = useRef(oogLight);
+  const flatRef = useRef(flatLight);
 
   useEffect(()=>{
     stateRef.current = playerId;
-  },[playerId])
+    goRef.current = goLight;
+    distanceRef.current = playerDistance;
+    emergencyRef.current = emergencyLight;
+    limitRef.current = limitLight
+    accRef.current = aLight;
+    oogRef.current = oogLight;
+    flatRef.current = flatLight;
+  },[playerId, goLight, playerDistance, emergencyLight, limitRef, aLight, oogLight, flatLight])
 
   function onConnect(){
     setIsConnected(true);
@@ -100,7 +114,6 @@ function App() {
         empty = empty + 1;
       }
       handleSetEmpty(empty);
-      //console.log(updatedId);
       handleSetPlayerId(updatedId);
       return updated;
     })
@@ -176,10 +189,186 @@ function App() {
     else if(index >= 96 && index <= 101){
       return 'end of limit';
     }
+    else if(index === 102){
+      return 'driving ace';
+    }
+    else if(index === 103){
+      return 'fuel truck';
+    }
+    else if(index === 104){
+      return 'emergency vehicle';
+    }
+    else if(index === 105){
+      return 'puncture proof';
+    }
+  }
+
+  function checkWin(){
+    
+  }
+
+  function overDistance(distance, rDistance){
+    if(distance + rDistance > 1000){
+      setError("Distance cannot exceed 1000km in a round");
+      return true;
+    }
+    else{
+      return false;
+    }
   }
 
   function playCard(player, index){
     const card = convert(index);
+    const id = [...stateRef.current];
+    const emergency = [...emergencyRef.current];
+    const win = 0;
+    const go = [...goRef.current];
+    const flat = [...flatRef.current];
+    if(id[0] === player){
+      setError("");
+      if(index >= 0 && index <= 45){
+        if(goRef.current === 'lighton' || emergency[0] === 'lighton'){
+          let distance = [...distanceRef.current];
+          let limit = [...limitLight.current];
+          if(limit[0] === 'lighton' && emergency[0] === 'light'){
+            if(card === '25'){
+              distance[0] += 25;
+            }
+            else if(card === '50'){
+              distance[0] += 50;
+            }
+            else if(card === '75' || card === '100' || card === '200'){
+              setError("Play an End of Limit or Emergency Vehicle card first");
+            }
+          }
+          else if(limit[0] === 'light'){
+            if(card  === '25'){
+              distance[0] += 25;
+            }
+            else if(card === '50'){
+              if(!overDistance(50, distance[0])){
+                distance[0] += 50;
+              }
+            }
+            else if(card === '75'){
+              if(!overDistance(75, distance[0])){
+                distance[0] += 75;
+              }
+            }
+            else if(card === '100'){
+              if(!overDistance(100, distance[0])){
+                distance[0] += 100;
+              }
+            }
+            else if(card === '200'){
+              if(!overDistance(200, distance[0])){
+                distance[0] += 200;
+              }
+            }
+          }
+          setplayerDistance(distance);
+          win = checkWin();
+          socket.emit("distance", distance);
+          if(win > 0){
+            // if win is equal to 1 they have won the round, if win is equal to 2 they have won the game
+            socket.emit("win", win);
+          }
+        }
+        else{
+          setError("Go card not played");
+          return;
+        }
+      }
+      else if(card === 'emergency vehicle'){
+        setEmergencyLight('lighton');
+        socket.emit("safety", "emergency");
+      }
+      else if(card === 'fuel truck'){
+        setTruckLight('lighton');
+        socket.emit('safety', "fuel_truck");
+      }
+      else if(card === 'driving ace'){
+        setAceLight('lighton');
+        socket.emit('safety', 'dace')
+      }
+      else if(card === 'puncture proof'){
+        setPunctureLight('lighton');
+        socket.emit('safety', 'puncture');
+      }
+      else if(card === 'green light'){
+        setGoLight('lighton');
+        socket.emit('go');
+      }
+      else if(card === 'accident' || card === 'flat tire' || card === 'out of gas' || card === 'speed limit' || card === 'stop light'){
+        setError("Cannot play this card on yourself");
+      }
+      else if(card === 'end of limit'){
+        if(limitRef.current === 'lighton'){
+          setLimitLight('light');
+          socket.emit('hazard', {type: "limit end", id: id[0]})
+        }
+        else{
+          setError('No speed limit present');
+        }
+      }
+      else if(card === 'repairs'){
+        if(accRef.current === 'lighton'){
+          setALight('light');
+          socket.emit('hazard', {type: "repairs", id: id[0]});
+        }
+        else{
+          setError("No accident present");
+        }
+      }
+      else if(card === 'spare tire'){
+        if(flatRef.current === 'lighton'){
+          setFlatLight('light');
+          socket.emit('hazard', {type: "spare_tire", id: id[0]});
+        }
+        else{
+          setError("No flat tire present");
+        }
+      }
+      else if(card === 'gasoline'){
+        if(oogRef.current === 'lighton'){
+          setoogLight('light');
+          socket.emit('hazard', {type: "gasoline", id: id[0]});
+        }
+        else{
+          setError("No out of gas present");
+        }
+      }
+      setTurn(false);
+    }
+    else if(id[1] === player || id[2] === player || id[3] === player){
+      const pIndex = id.findIndex((value)=> value === player);
+      if(index >= 0 && index <= 45){
+        setError("Distance cards cannot be played on other players");
+        return;
+      }
+      else if(card === 'emergency vehicle' || card === 'driving ace' || card === 'puncture proof' || card === 'fuel truck'){
+        setError("Safeties cannot be played on other players");
+        return
+      }
+      else if(card === 'repairs' || card === 'gasoline' || card === 'spare tire' || card === 'green light'){
+        setError("Go card and remedies cannot be played on other players");
+      }
+      else if(card === 'stop light'){
+        if(go[pIndex] === 'lighton'){
+          go[pIndex] = 'light';
+          setGoLight(go);
+          socket.emit('hazard', {type: 'stop', id: id[pIndex]});
+        }
+        else{
+          setError("Player does not have a go card");
+        }
+      }
+      else if(card === 'flat tire'){
+        if(go[pIndex] === 'lighton'){
+          
+        }
+      }
+    }
   }
 
   const handleNewDeck = useCallback((deck)=>{
@@ -233,17 +422,17 @@ function App() {
       else if(cardId === 'end of limit'){
         cards.push(cardNames[8]);
       }
-      else if(deck[x] === 102){
+      else if(cardId === 'driving ace'){
         cards.push(cardNames[6]);
       }
-      else if(deck[x] === 103){
+      else if(cardId === 'fuel truck'){
         cards.push(cardNames[10]);
       }
-      else if(deck[x] === 104){
-        cards.push(cardNames[15]);
+      else if(cardId === 'emergency vehicle'){
+        cards.push(cardNames[7]);
       }
-      else if(deck[x] === 105){
-        cards.push(cardNames[8]);
+      else if(cardId === 'puncture proof'){
+        cards.push(cardNames[14]);
       }
     }
     setDeckNames(cards);
@@ -329,6 +518,7 @@ function App() {
           playCard={playCard}
           setTurn={setTurn}
           playerId={playerId}
+          error={error}
         /></div> : 
       <div><Welcome nHandleChange={nHandleChange} nHandleSubmit={nHandleSubmit} /></div>}
     </div>

@@ -3,8 +3,9 @@ import Score from './Score';
 import Indicator from './Indicator';
 import Card from './Card';
 import Play from './Play';
+import Error from './Error';
 
-function Main({setTurn, playerId, turn, deckNames, playerName, playerDistance, playerRScore, playerTScore, playerCount, aLight, oogLight, stopS, flatLight, limitLight, emergencyLight, aceLight, truckLight, punctureLight, goLight, cDeck, playCard}){
+function Main({setTurn, error, playerId, turn, deckNames, playerName, playerDistance, playerRScore, playerTScore, playerCount, aLight, oogLight, stopS, flatLight, limitLight, emergencyLight, aceLight, truckLight, punctureLight, goLight, cDeck, playCard}){
     return (
         <div id="main">
             <header>
@@ -61,7 +62,8 @@ function Main({setTurn, playerId, turn, deckNames, playerName, playerDistance, p
                 <div id="card6"><Card deckName={deckNames[5]} cDeck={cDeck[5]} /></div>
             </div>
             <div className="turn">
-                <div>{turn ? <div>Play a card</div>:<div></div>}</div>
+                <div>{turn ? <div>Play a Card</div>:<div></div>}</div>
+                <div><Error error={error}/></div>
             </div>
         </div>
     </div>
